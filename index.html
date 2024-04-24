@@ -1,0 +1,516 @@
+<!-- 21/11/2023 - 22/11/2023 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO LIST</title>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap");
+        @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+
+        /* Header */
+        header {
+            margin: 23px 10px;
+        }
+
+        header h1 {
+            text-align: center;
+            padding: 5px 13px;
+            border-bottom: 3px solid black;
+            width: fit-content;
+            margin: auto;
+        }
+
+        /* Main */
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+        /* ToDo Section */
+        #todo {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 31px;
+            width: 93%;
+            padding: 20px 0;
+        }
+
+        #todo>div {
+            padding: 13px 23px;
+            box-shadow: 0 0 3px #3838388a;
+            border-radius: 3px;
+        }
+
+
+        /* Lists */
+        #lists {
+            width: fit-content;
+        }
+
+        #lists>h2 {
+            padding: 0 5px 3px;
+            border-bottom: 1px solid #3838388a;
+            width: fit-content;
+        }
+
+        #todos {
+            padding: 20px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            justify-items: center;
+            gap: 20px 10px;
+        }
+
+        #todos .item {
+            box-shadow: 0 0 3px #3838388a;
+            border-radius: 3px;
+            padding: 13px 11px;
+            max-width: 250px;
+        }
+
+        #lists .item>p {
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            word-wrap: break-word;
+        }
+
+        #lists .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        #lists .buttons :first-child {
+            display: flex;
+            align-items: center;
+            font-size: 0.8em;
+            gap: 5px;
+        }
+
+        #lists .buttons :first-child :first-child {
+            cursor: pointer;
+            outline: none;
+        }
+
+        .rmBtn {
+            padding: 6px;
+            border-radius: 3px;
+            color: #fff;
+            background-color: #858282;
+            font-size: 0.6em !important;
+            font-weight: bold;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+        .rmBtn:hover {
+            background-color: #858282d9 !important;
+        }
+
+        .rmAll {
+            border: 1px solid #1976d2 !important;
+            color: #1976d2 !important;
+            background-color: transparent !important;
+        }
+
+        .rmAll:hover {
+            background-color: #9bb2c933 !important;
+        }
+
+
+        /* Input Box */
+        #todoInp {
+            text-align: center;
+            width: 100%;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 17px 11px;
+            margin-bottom: 13px;
+            outline: none;
+            border: 1px solid #9291918a;
+            border-radius: 3px;
+            resize: none;
+        }
+
+        #todoInp:hover {
+            border: 1px solid black;
+        }
+
+        #todoInp:focus {
+            border: 2px solid #1976d2 !important;
+        }
+
+        #inputBox button {
+            display: block;
+            margin: 7px 0;
+        }
+
+        #addTodo {
+            background-color: #26a69a;
+            box-shadow: 0 0 3px #3838388a;
+            padding: 7px 0;
+            width: 100%;
+            font-size: 1.3rem;
+        }
+
+        #addTodo:hover {
+            background-color: #26a69ae0;
+        }
+
+        #removeAll {
+            border: 1px solid #1976d2;
+            color: #1976d2;
+            background-color: transparent;
+            padding: 7px 0;
+            width: 100%;
+            font-size: 1.3rem;
+        }
+
+        #removeAll:hover {
+            background-color: #9bb2c933 !important;
+        }
+
+
+        /* Notification pop-up */
+        #success-noti,
+        #danger-noti,
+        #confirm-noti {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 9px 21px !important;
+            margin: 3px 4px;
+            border-radius: 5px;
+            width: fit-content;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        #success-noti span,
+        #danger-noti span,
+        #confirm-noti span {
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding-left: 10px;
+        }
+
+        #success-noti {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        #danger-noti,
+        #confirm-noti {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        #confirm-noti>div:first-child {
+            display: flex;
+            align-items: center;
+        }
+
+        #confirm-noti>div:last-child {
+            display: flex;
+            align-items: center;
+            margin-left: 23px;
+        }
+
+        #confirm-noti>div:last-child button {
+            margin: 5px 7px;
+            padding: 7px 7px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+
+        /* Utility Classes */
+        .ns {
+            user-select: none;
+        }
+
+        .xfont {
+            font-family: 'Bruno Ace SC', cursive;
+        }
+
+        .btn {
+            border: none;
+            text-transform: uppercase;
+            color: #fff;
+            border-radius: 3px;
+            font-weight: 700;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 935px) {
+            #todos {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+            #lists {
+                width: 100%;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+                border: none;
+            }
+        }
+
+        @media screen and (max-width: 729px) {
+            #todos {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media screen and (max-width: 529px) {
+            #todo {
+                justify-content: center;
+            }
+
+            #todos {
+                grid-template-columns: 1fr;
+            }
+
+            #todos .item {
+                width: 85%;
+                max-width: none;
+            }
+
+            #lists {
+                width: 90vw;
+            }
+
+            #lists>h2 {
+                margin: auto;
+            }
+
+            header h1 {
+                font-size: 1rem;
+            }
+        }
+
+        @media screen and (max-width: 307px) {
+            #inputBox * {
+                font-size: 1rem;
+            }
+
+            #todos .item {
+                width: 95%;
+            }
+        }
+    </style>
+    <link rel="shortcut icon" href="favicon.jpg" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <h1 class="xfont ns">TODO LIST - DEVELOPED BY MIHIR</h1>
+    </header>
+
+    <main>
+        <section id="todo">
+            <div id="lists">
+                <h2 class="xfont ns">TODO LIST</h2>
+                <div id="todos"></div>
+            </div>
+            <div id="inputBox" class="ns">
+                <textarea id="todoInp" spellcheck="false" rows="2" placeholder="Enter your Todo to add"></textarea>
+                <button id="addTodo" class="btn">ADD TODO</button>
+                <button onclick="Noti.confirm('Are you sure you want to Delete All?')" id="removeAll" class="btn">REMOVE
+                    ALL</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Don't Mess with This
+        {
+            let m = localStorage.getItem('todos');
+            let n = localStorage.getItem('checkbox');
+
+            if (!m) {
+                localStorage.setItem('todos', '[]');
+            }
+            if (!n) {
+                localStorage.setItem('checkbox', '{}');
+            }
+        }
+
+
+        let todos = document.getElementById('todos');
+
+        let add_btn = document.getElementById('addTodo');
+
+
+        class Noti {
+            static remover() {
+                if (['success-noti', 'danger-noti', 'confirm-noti'].includes(document.body.firstElementChild.id)) {
+                    document.body.firstElementChild.remove();
+                }
+            }
+
+            static element_adder(id, innerHTML, delay = 3000) {
+                let div = document.createElement("div");
+                div.id = id;
+                div.innerHTML = innerHTML;
+                document.body.prepend(div);
+                setTimeout(() => {
+                    div.remove();
+                }, delay);
+            }
+
+            static success(text) {
+                Noti.remover();
+                Noti.element_adder("success-noti", `<i class="material-icons">check_circle</i><span>${text}</span>`);
+            }
+
+            static danger(text) {
+                Noti.remover();
+                Noti.element_adder("danger-noti", `<i class="material-icons">cancel</i><span>${text}</span>`);
+            }
+
+            static confirm(text) {
+                Noti.remover();
+                Noti.element_adder("confirm-noti", `<div><i class="material-icons">cancel</i><span>${text}</span></div>
+        <div><button onclick="remove_all()" class="btn rmBtn ns">Confirm</button><button onclick="this.parentElement.parentElement.remove()" class="btn rmAll ns">Cancel</button></div>`, 5000);
+            }
+        }
+
+
+        function add_todo(todo, ind) {
+            let checked = JSON.parse(localStorage.getItem('checkbox'));
+            checked = checked[`${ind}`]
+            let div = document.createElement('div');
+            div.className = 'item';
+            if (checked) {
+                div.innerHTML += `<p>${todo}</p>
+        <div class="buttons ns">
+            <div class="button">
+                <input type="checkbox" onclick="checker(this)" id="${ind}" checked>
+                <label for="${ind}">Completed</label>
+            </div>
+            <div class="button">
+                <button onclick="remove_one(this)" class="btn rmBtn">REMOVE</button>
+            </div>
+        </div>`;
+            }
+            else {
+                div.innerHTML += `<p>${todo}</p>
+        <div class="buttons ns">
+            <div class="button">
+                <input type="checkbox" onclick="checker(this)" id="${ind}">
+                <label for="${ind}">Not Completed</label>
+            </div>
+            <div class="button">
+                <button onclick="remove_one(this)" class="btn  rmBtn">REMOVE</button>
+            </div>
+        </div>`
+            }
+            todos.append(div);
+        }
+
+
+        function remove_one(element) {
+            let ind = element.parentElement.previousElementSibling.firstElementChild.id;
+            let ch_arr = JSON.parse(localStorage.getItem('checkbox'));
+            let ch_new = {};
+            delete ch_arr[ind];
+            let ch_ar = Object.values(ch_arr);
+            for (let ch in ch_ar) {
+                ch_new[`${ch}`] = ch_ar[ch];
+            }
+            let arr = JSON.parse(localStorage.getItem('todos'));
+            arr = Array.from(arr);
+            let deleted = arr.splice(ind, 1);
+            localStorage.setItem('todos', JSON.stringify(arr));
+            localStorage.setItem('checkbox', JSON.stringify(ch_new));
+
+            element.parentElement.parentElement.parentElement.remove()
+            let todo_elements = document.getElementsByClassName('item');
+            todo_elements = Array.from(todo_elements);
+            for (let todo_ind in todo_elements) {
+                todo_elements[todo_ind].lastElementChild.firstElementChild.firstElementChild.id = `${todo_ind}`;
+            }
+            Noti.danger(`Successfully removed ${deleted}.`);
+        }
+
+        function remove_all() {
+            let m = JSON.parse(localStorage.getItem('todos'));
+            if (m.length == 0) {
+                Noti.danger('No TODOs to Remove.');
+            }
+            else {
+                localStorage.setItem('todos', '[]');
+                localStorage.setItem('checkbox', '{}');
+                let todo_elements = document.getElementsByClassName('item');
+                todo_elements = Array.from(todo_elements);
+                for (let todo_element of todo_elements) {
+                    todo_element.remove();
+                }
+                Noti.danger('Successfully Removed all TODOs.');
+            }
+        }
+
+
+        function checker(element) {
+            let data = localStorage.getItem('checkbox');
+            data = JSON.parse(data);
+            if (element.checked) {
+                element.nextElementSibling.innerText = "Completed";
+            }
+            else {
+                element.nextElementSibling.innerText = "Not Completed";
+            }
+            data[element.id] = element.checked;
+            localStorage.setItem('checkbox', JSON.stringify(data));
+        }
+
+
+        let todo_list = JSON.parse(localStorage.getItem('todos'));
+        for (let ind in todo_list) {
+            add_todo(todo_list[ind], ind);
+        }
+
+        add_btn.onclick = () => {
+            let todo_inp = document.getElementById('todoInp');
+            if (todo_inp.value.length > 0) {
+                let todo_data = localStorage.getItem('todos');
+                let new_data = JSON.parse(todo_data);
+                let todo_length = JSON.parse(localStorage.getItem('todos')).length;
+                new_data.push(todo_inp.value);
+                add_todo(todo_inp.value, todo_length);
+                localStorage.setItem('todos', JSON.stringify(new_data));
+                Noti.success(`Successfully added ${todo_inp.value}.`);
+                todo_inp.value = '';
+            }
+            else {
+                Noti.danger('Enter your Todo to add.');
+            }
+        }
+    </script>
+</body>
+
+</html>
